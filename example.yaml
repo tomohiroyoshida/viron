@@ -1,0 +1,103 @@
+openapi: 3.0.2
+info:
+  version: 0.0.1
+  title: '@viron/example-nodejs'
+  description: api specifications
+  x-viron-thumbnail: https://example.com/thumbnail.png
+  x-viron-theme: standard
+  x-viron-tags:
+    - example
+
+x-viron-sections:
+  - id: manage
+    label: 管理
+    type: manage
+  - id: dashboard
+    label: ダッシュボード
+    type: dashboard
+
+x-viron-groups:
+  - id: user
+    label: ユーザー
+
+x-viron-pages:
+  - id: user
+    label: ユーザー情報
+    sectionId: manage
+    groupId: user
+
+servers:
+  - url: /
+
+tags:
+  - name: user
+
+paths:
+  /users:
+    get:
+      x-viron-page-id: user
+      x-viron-component:
+        style: table # number | chart | explorer
+        pagination: true
+        autoRefreshSec: 10
+        actions:
+          - operationId: downloadCsv # GET: /csv_downloads/{module}/users/{userId}
+            parameterMap:
+              module: users 
+              userId: {userId} 
+        preview:
+          method: get
+          path: /preview/users/{userId}
+          target: _blank
+          parameterMap:
+            userId: {userId}
+      operationId: get
+      tags:
+        - user
+      summary: list user
+      description: ユーザー情報
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    userId:
+                      description: ユーザーID
+                      type: string
+                      x-viron-component-primary: true
+                      x-viron-component-query: true
+                      x-viron-component-label-priority: 500
+                      x-viron-component-sort: true
+                    name:
+                      description: ユーザー名
+                      type: string
+                      x-viron-component-label-priority: 300
+                    email:
+                      description: メールアドレス
+                      type: string
+                      x-viron-component-query: true
+                      x-viron-component-label-priority: 200
+                      x-viron-component-sort: true
+                    age:
+                      description: 年齢
+                      type: number
+                      x-viron-component-label-priority: 100
+                      x-viron-component-sort: true
+      security:
+        - jwt: []
+
+components:
+  securitySchemes:
+    jwt:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://localhost:3000/signin
+          scopes:
+            api:access: API access
+
