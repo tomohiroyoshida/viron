@@ -8,23 +8,39 @@ info:
   x-viron-tags:
     - example
 
-x-viron-sections:
-  - id: manage
-    label: 管理
-    type: manage
-  - id: dashboard
-    label: ダッシュボード
-    type: dashboard
-
-x-viron-groups:
-  - id: user
-    label: ユーザー
-
-x-viron-pages:
-  - id: user
-    label: ユーザー情報
-    sectionId: manage
-    groupId: user
+  x-viron-pages:
+    - id: user
+      title: ユーザー情報
+      group: /Manage/Users/User
+      contents:
+        - getOperationId: listUser
+          style: table
+          primary: userId
+          pagination: true
+          query:
+            - userId
+            - email
+          tableLabels:
+            - userId
+            - name
+            - email
+            - age
+          sort:
+            - userId
+            - email
+            - age
+          autoRefreshSec: 10
+          actions:
+            - operationId: downloadCsv # GET: /csv_downloads/{module}/users/{userId}
+              parameterMap:
+                module: users 
+                userId: {userId} 
+          preview:
+            method: get
+            path: /users/{userId}/preview
+            target: _blank
+            parameterMap:
+              userId: {userId}
 
 servers:
   - url: /
@@ -35,23 +51,7 @@ tags:
 paths:
   /users:
     get:
-      x-viron-page-id: user
-      x-viron-component:
-        style: table # number | chart | explorer
-        pagination: true
-        autoRefreshSec: 10
-        actions:
-          - operationId: downloadCsv # GET: /csv_downloads/{module}/users/{userId}
-            parameterMap:
-              module: users 
-              userId: {userId} 
-        preview:
-          method: get
-          path: /preview/users/{userId}
-          target: _blank
-          parameterMap:
-            userId: {userId}
-      operationId: get
+      operationId: listUser
       tags:
         - user
       summary: list user
@@ -69,25 +69,15 @@ paths:
                     userId:
                       description: ユーザーID
                       type: string
-                      x-viron-component-primary: true
-                      x-viron-component-query: true
-                      x-viron-component-label-priority: 500
-                      x-viron-component-sort: true
                     name:
                       description: ユーザー名
                       type: string
-                      x-viron-component-label-priority: 300
                     email:
                       description: メールアドレス
                       type: string
-                      x-viron-component-query: true
-                      x-viron-component-label-priority: 200
-                      x-viron-component-sort: true
                     age:
                       description: 年齢
                       type: number
-                      x-viron-component-label-priority: 100
-                      x-viron-component-sort: true
       security:
         - jwt: []
 
