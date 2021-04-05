@@ -7,13 +7,14 @@ info:
   x-viron-theme: standard
   x-viron-tags:
     - example
-
   x-viron-pages:
     - id: user
       title: ユーザー情報
       group: /Manage/Users/User
       contents:
         - getOperationId: listUser
+          parameterMap:
+            accountGroup: marouge
           style: table
           primary: userId
           pagination: true
@@ -31,13 +32,14 @@ info:
             - age
           autoRefreshSec: 10
           actions:
-            - operationId: downloadCsv # GET: /csv_downloads/{module}/users/{userId}
+            - operationId: downloadCsv # GET: /csv_downloads/{module}
               parameterMap:
                 module: users 
-                userId: {userId} 
+            - operationId: recipients # GET: /users/{userId}/recipients
+              parameterMap:
+                userId: {userId}
           preview:
-            method: get
-            path: /users/{userId}/preview
+            operationId: previewUser
             target: _blank
             parameterMap:
               userId: {userId}
@@ -49,7 +51,7 @@ tags:
   - name: user
 
 paths:
-  /users:
+  /account_groups/{accountGroup}/users:
     get:
       operationId: listUser
       tags:
