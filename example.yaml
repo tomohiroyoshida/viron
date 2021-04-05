@@ -13,7 +13,7 @@ info:
       group: /Manage/Users/User
       contents:
         - getOperationId: listUser
-          parameterMap:
+          parameters:
             accountGroup: marouge
           style: table
           primary: userId
@@ -33,10 +33,11 @@ info:
           autoRefreshSec: 10
           actions:
             - operationId: downloadCsv # GET: /csv_downloads/{module}
-              parameterMap:
+              requestBody: {}
+              parameters:
                 module: users 
             - operationId: recipients # GET: /users/{userId}/recipients
-              parameterMap:
+              parameters:
                 userId: {userId}
           preview:
             operationId: previewUser
