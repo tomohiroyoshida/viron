@@ -10,6 +10,7 @@ import { domainsOas } from '@viron/lib';
 
 import { logger } from '../context';
 import { jwt } from '../security_handlers/jwt';
+import { exegesisPluginAuditlog } from '../exegesis_plugins/auditlog';
 
 import * as routesAdminRoles from './adminroles';
 import * as routesAdminUsers from './adminusers';
@@ -108,6 +109,7 @@ export async function register(app: Express): Promise<void> {
         allErrors: true,
         treatReturnedJsonAsPure: true,
         autoHandleHttpErrors: false,
+        plugins: [exegesisPluginAuditlog],
       });
       return { middleware, apiDoc };
     })

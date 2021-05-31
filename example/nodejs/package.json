@@ -28,7 +28,7 @@
     "@types/express": "^4.17.11",
     "@types/i18next-fs-backend": "^1.0.0",
     "@types/jest": "^26.0.20",
-    "@types/node": "^14.14.21",
+    "@types/node": "^14.17.1",
     "@types/pino": "^6.3.5",
     "@types/pino-http": "^5.4.0",
     "@types/sinon": "^9.0.10",

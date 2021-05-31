@@ -11,6 +11,8 @@ paths:
   /ping:
     get:
       operationId: getPing
+      x-exegesis-auditlog:
+        skip: true
       tags:
         - ping
       summary: ping

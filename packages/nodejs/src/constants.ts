@@ -35,6 +35,7 @@ export type StoreType = typeof STORE_TYPE[keyof typeof STORE_TYPE];
 
 export const HTTP_HEADER = {
   X_VIRON_AUTHTYPES_PATH: 'x-viron-authtypes-path',
+  X_FORWARDED_FOR: 'x-forwarded-for',
   ACCESS_CONTROL_ALLOW_ORIGIN: 'access-control-allow-origin',
   ACCESS_CONTROL_ALLOW_CREDENTIALS: 'access-control-allow-credentials',
   ACCESS_CONTROL_ALLOW_METHODS: 'access-control-allow-methods',
